@@ -1,0 +1,28 @@
+* SQL ASSESSMENT:
+
+-> Task : 1 (join multiple tables using left join)
+
+1) List all Countries and customers related to these countries.
+
+Ans. SELECT country.countryID, country.country_name, country.country_name_eng, customer.customer_id, customer.customer_name FROM country LEFT JOIN city ON country.countryID = city.country_id LEFT JOIN customer ON city.city_id = customer.cityID;
+
+- SELECT country.*, customer.* FROM country LEFT JOIN city ON country.countryID = city.country_id LEFT JOIN customer ON city.city_id = customer.cityID;
+
+2) For each country displaying its name in English, the name of the city customer is located in as well as the name of the customer. 
+
+Ans. SELECT country.country_name_eng, city.city_name, customer.customer_name FROM country LEFT JOIN city ON country.countryID = city.country_id LEFT JOIN customer ON city.city_id = customer.cityID;
+
+3) Return even countries without related cities and customers.
+
+Ans. SELECT country.* FROM country LEFT JOIN city ON country.countryID = city.country_id LEFT JOIN customer ON city.city_id = customer.cityID WHERE country.countryID % 2 = 0 AND city.country_id IS NULL AND customer.cityID IS NULL;
+
+
+-> Task : 2 (join multiple tables using both left and inner join)
+
+1) Return the list of all countries that have pairs(exclude countries which are not referenced by any city). For such pairs return all customers.
+
+Ans. SELECT country.countryID, country.country_name_eng, city.city_name, customer.customer_name FROM country INNER JOIN city ON country.countryID = city.country_id LEFT JOIN customer ON city.city_id = customer.cityID;
+
+2) Return even pairs of not having a single customer
+
+Ans. SELECT country.countryID, country.country_name_eng, city.city_name, customer.customer_name FROM country LEFT JOIN city ON country.countryID = city.country_id LEFT JOIN customer ON city.city_id = customer.cityID WHERE country.countryID % 2 = 0 AND customer.cityID IS NULL;

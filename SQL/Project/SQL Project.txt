@@ -1,0 +1,218 @@
+* SQL Project:-
+
+1. Display all information in the tables EMP and DEPT.
+      
+Ans. 
+-> SELECT * FROM employee;
+   SELECT * FROM department;
+-> SELECT * FROM employee AS e, department AS d WHERE d.deptID = e.dept_id;
+
+2. Display only the hire date and employee name for each employee. 
+  
+Ans. SELECT e_fname, e_lname, hire_date FROM employee;
+
+3. Display the ename concatenated with the job ID, separated by a comma and space, and 
+name the column Employee and Title.
+
+Ans. SELECT concat_ws(', ', e_fname, job_id) as "Employee and Title" FROM employee;
+
+4. Display the hire date, name and department number for all clerks.   
+
+Ans. SELECT e_fname, e_lname, hire_date, dept_id FROM employee WHERE jobTitle = "Clerk";
+
+5. Create a query to display all the data from the EMP table. Separate each column by a 
+comma. Name the column THE OUTPUT.
+
+Ans. SELECT concat_ws(', ', empID, e_fname, e_lname, hire_date, job_id, jobTitle, dept_id, salary, commission_earn, managerName, city, location_id) AS "THE OUTPUT" FROM employee;
+
+6. Display the names and salaries of all employees with a salary greater than 2000.   
+
+Ans. SELECT e_fname, e_lname, salary FROM employee WHERE salary>2000;
+
+7. Display the names and dates of employees with the column headers "Name" and "Start 
+Date".
+
+Ans. SELECT concat_ws(' ', e_fname, e_lname) AS Name, hire_date AS "Start Date" FROM employee;
+
+8. Display the names and hire dates of all employees in the order they were hired.   
+
+Ans. SELECT e_fname, hire_date FROM employee ORDER BY hire_date;
+
+9. Display the names and salaries of all employees in reverse salary order.   
+
+Ans. SELECT e_fname, salary FROM employee ORDER BY salary DESC;
+
+10. Display 'ename" and "deptno" who are all earned commission and display salary in 
+reverse order. 
+
+Ans. SELECT e_fname, dept_id, salary FROM employee WHERE commission_earn != ' ' ORDER BY salary DESC;
+
+11. Display the last name and job title of all employees who do not have a manager.
+
+Ans. SELECT e_lname, jobTitle FROM employee WHERE managerName = " ";
+
+12. Display the last name, job, and salary for all employees whose job is sales representative or stock clerk and whose salary is not equal to $2,500, $3,500, or $5,000.
+
+Ans. SELECT e_lname, job_id, jobTitle, salary FROM employee WHERE jobTitle IN ('Sales Representative', 'Stock Clerk') AND salary NOT IN (2500, 3500, 5000);
+
+13. Display the maximum, minimum and average salary and commission earned.    
+
+Ans. SELECT MAX(salary), MAX(commission_earn), MIN(salary), MIN(commission_earn), AVG(salary), AVG(commission_earn) FROM employee;
+
+14. Display the department number, total salary payout and total commission payout for 
+each department.
+
+Ans. SELECT dept_id, SUM(salary), SUM(commission_earn) FROM employee GROUP BY dept_id;
+
+15. Display the department number and number of employees in each department. 
+
+Ans. SELECT dept_id, COUNT(empID) FROM employee GROUP BY dept_id;
+
+16. Display the department number and total salary of employees in each department. 
+
+Ans. SELECT dept_id, SUM(salary) FROM employee GROUP BY dept_id;
+
+17. Display the employee's name who doesn't earn a commission. Order the result set without using the column name.
+
+Ans. SELECT e_fname FROM employee WHERE commission_earn = "" ORDER BY 1;
+
+18. Display the employees name, department id and commission. If an Employee doesn't earn the commission, then display as 'No commission'. Name the columns appropriately.
+
+Ans. SELECT concat_ws(" ", e_fname, e_lname) AS "Employee Name", dept_id AS "Department ID", CASE WHEN commission_earn > 0 THEN commission_earn WHEN commission_earn = 0 THEN 'No commission' END AS "Commission Earned" FROM employee;
+
+19. Display the employee's name, salary and commission multiplied by 2. If an Employee doesn't earn the commission, then display as 'No commission. Name the columns appropriately.
+
+Ans. SELECT concat_ws(" ", e_fname, e_lname) AS "Employee Name", salary AS "Salary", CASE WHEN commission_earn > 0 THEN commission_earn*2 WHEN commission_earn = 0 THEN 'No commission' END AS "Commission Earned" FROM employee;
+
+20. Display the employee's name, department id who have the first name same as another employee in the same department.
+
+Ans. SELECT e1.e_fname AS "Employee Name", e1.dept_id FROM employee AS e1 JOIN employee AS e2 ON e1.e_fname = e2.e_fname AND e1.dept_id = e2.dept_id AND e1.empID <> e2.empID;
+
+21. Display the sum of salaries of the employees working under each Manager. 
+
+Ans. SELECT SUM(salary) AS "Total Salary", managerName FROM employee GROUP BY managerName;
+
+22. Select the Managers name, the count of employees working under and the department ID of the manager.
+
+Ans. SELECT managerName AS "Manager Name", COUNT(empID) AS "Total Employees", dept_id FROM employee GROUP BY managerName;
+
+23. Select the employee name, department id, and the salary. Group the result with the manager name and the employee last name should have second letter 'a'.
+
+Ans. SELECT e_fname, e_lname, managerName, dept_id, salary FROM employee WHERE e_lname LIKE '%a%' GROUP BY managerName;
+
+24.  Display the average of sum of the salaries and group the result with the department id. Order the result with the department id. 
+   
+Ans. SELECT AVG(salary), dept_id FROM employee GROUP BY dept_id ORDER BY dept_id;
+
+25.  Select the maximum salary of each department along with the department id.
+
+Ans. SELECT MAX(salary), dept_id FROM employee GROUP BY dept_id;
+
+26. Display the commission, if not null display 10% of salary, if null display a default value 1.
+
+Ans. SELECT commission_earn, CASE WHEN commission_earn > 0 THEN salary*0.10 ELSE 1 END AS "10% of Salary" FROM employee;
+
+27.  Write a query that displays the employee's last names only from the string's 2-5th position with the first letter capitalized and all other letters lowercase, Give each column an appropriate label. 
+
+Ans. SELECT e_lname, concat(upper(substring(e_lname,2,1)), lower(substring(e_lname,3,5))) AS "Capitalized Letter" FROM employee;
+
+28. Write a query that displays the employee's first name and last name along with a " in between for e.g.: first name : Ram; last name : Kumar then Ram-Kumar. Also displays the month on which the employee has joined.
+
+Ans. SELECT concat(e_fname, "-", e_lname) AS "Full Name", month(hire_date) AS "Joining Month" FROM employee;
+
+29. Write a query to display the employee's last name and if half of the salary is greater than ten thousand then increase the salary by 10% else by 11.5% along with the bonus amount of 1500 each. Provide each column an appropriate label.
+
+Ans. SELECT e_lname, CASE WHEN salary/2 > 10000 THEN salary+(salary*10)/100 ELSE (salary+(salary*11.5)/100)+1500 END AS "Salary Increment" FROM employee;
+
+30. Display the employee ID by Appending two zeros after 2nd digit and 'E' in the end, department id, salary and the manager name all in Upper case, if the Manager name consists of 'z' replace it with '$!
+
+Ans. SELECT concat(empID,'00','E') AS "Employee ID", dept_id, salary, CASE WHEN managerName LIKE 'Z%' THEN upper(REPLACE(managerName, 'Z', '$')) ELSE upper(managerName) END AS "Manager Name" FROM employee ORDER BY empID;
+
+31.  Write a query that displays the employee's last names with the first letter capitalized and all other letters lowercase, and the length of the names, for all employees whose name starts with J, A, or M. Give each column an appropriate label. Sort the results by the employees' last names.
+
+Ans. SELECT concat(upper(substring(e_lname,1,1)), lower(substring(e_lname,2))) AS "Employee's Last Name", length(e_lname) AS "Name Length" FROM employee WHERE e_lname LIKE 'J%' OR e_lname LIKE 'A%' OR e_lname LIKE 'M%' ORDER BY e_lname;
+
+32. Display the employee's name if it is a palindrome.
+
+Ans. SELECT e_fname FROM employee WHERE e_fname = reverse(e_fname);
+
+33. Display First names of all employees with initcaps.
+
+Ans. SELECT concat(upper(substring(e_fname,1,1)), lower(substring(e_fname,2))) AS "Employee's First Name" FROM employee;
+
+34. From LOCATIONS table, extract the word between first and second space from the STREET ADDRESS column. 
+
+Ans. SELECT SUBSTRING_INDEX(substring_index(street_address, ' ', 2), ' ', -1) AS "STREET ADDRESS" FROM location;
+
+35. Extract first letter from First Name column and append it with the Last Name. Also add "@systechusa.com" at the end. Name the column as e-mail address. All characters should be in lower case. Display this along with their First Name. 
+
+Ans. SELECT concat(concat_ws('',substring(e_fname,1,1),e_lname), '@systechusa.com') AS "e-mail address" FROM employee;
+
+36. Display the name of the employee whose salary is the lowest.
+
+Ans. SELECT e_fname, salary FROM employee WHERE salary = (SELECT MIN(salary) FROM employee);
+
+37. Display the names of all employees except the lowest paid. 
+
+Ans. SELECT e_fname, salary FROM employee WHERE salary != (SELECT MIN(salary) FROM employee);
+
+38. Write a query to display the last name, department number, department name for all employees. 
+
+Ans. SELECT employee.e_lname, department.deptID, department.dept_name FROM department JOIN employee ON department.deptID = employee.dept_id;
+
+39. Create a unique list of all jobs that are in department 4. Include the location of the department in the output.
+
+Ans. SELECT e.jobTitle, d.location FROM department AS d JOIN employee AS e ON d.deptID = e.dept_id WHERE d.deptID = 4;
+
+40.  Write a query to display the employee last name,department name,location id and city of all employees who earn commission.
+
+Ans. SELECT employee.e_lname, department.dept_name, employee.location_id, employee.city FROM department JOIN employee ON department.deptID = employee.dept_id WHERE employee.commission_earn != '';
+
+41. Display the employee last name and department name of all employees who have an 'a' in their last name.
+
+Ans. SELECT employee.e_lname, department.dept_name FROM department JOIN employee ON department.deptID = employee.dept_id WHERE employee.e_lname LIKE 'a%';
+
+42. Write a query to display the last name,job,department number and department name for all employees who work in ATLANTA.
+
+Ans. SELECT employee.e_lname, employee.jobTitle, department.deptID, department.dept_name FROM department JOIN employee ON department.deptID = employee.dept_id WHERE department.location = 'Atlanta';
+
+43. Create a query that displays the name,job,department name,salary,grade for all employees. Derive grade based on salary(>=50000=A, >=30000=B,<30000=C).
+
+Ans. SELECT employee.e_fname, employee.e_lname, employee.job_id, employee.jobTitle, department.dept_name, employee.salary, CASE WHEN employee.salary >= 50000 THEN 'A' WHEN employee.salary >= 30000 THEN 'B' WHEN employee.salary < 30000 THEN 'C' END AS 'Grade Base on Salary' FROM department JOIN employee ON department.deptID = employee.dept_id;
+
+44.  Write a query to display the last name and hire date of any employee in the same department as SALES.
+
+Ans. SELECT e.e_lname, e.hire_date, d.dept_name FROM department AS d JOIN employee AS e ON d.deptID = e.dept_id WHERE d.dept_name = 'Sales';
+
+45. Display the last name, department number, and job ID of all employees whose department location is ATLANTA.
+
+Ans. SELECT e.e_lname, e.dept_id, e.job_id FROM department AS d JOIN employee AS e ON d.deptID = e.dept_id WHERE d.location = 'Atlanta';
+
+46.  Display the department number, last name, and job ID for every employee in the OPERATIONS department. 
+
+Ans. SELECT e.dept_id, e.e_lname, e.job_id FROM department AS d JOIN employee AS e ON d.deptID = e.dept_id WHERE d.dept_name = 'Operations';
+
+47.  Write a compound query to produce a list of employees showing raise percentages, employee IDs, and salaries. Employees in department 1 and 3 are given a 5% raise, employees in department 2 are given a 10% raise, employees in departments 4 and 5 are given a 15% raise, and employees in department 6 are not given a raise.
+
+Ans. 
+SELECT employee.empID, department.deptID, employee.salary, 
+CASE 
+	WHEN department.deptID IN (1,3) THEN '5%' 
+	WHEN department.deptID = 2 THEN '10%' 
+	WHEN department.deptID IN (4,5) THEN '15%' 
+	ELSE 'No Raise' 
+END AS Increment, 
+CASE 
+	WHEN department.deptID IN (1,3) THEN employee.salary+(employee.salary*5/100) 
+	WHEN department.deptID = 2 THEN employee.salary+(employee.salary*10/100) 
+	WHEN department.deptID IN (4,5) THEN employee.salary+(employee.salary*15/100) 
+	ELSE 'No Raise' END AS 'Increased Salary' 
+FROM department JOIN employee ON department.deptID = employee.dept_id;
+
+48.  Write a query to display the top three earners in the EMPLOYEES table. Display their last names and salaries.
+
+Ans. SELECT e_lname, salary FROM employee ORDER BY salary DESC LIMIT 3;
+
+49. Display the names of all employees with their salary and commission earned. Employees with a null commission should have O in the commission column.
+
+Ans. SELECT e_fname, e_lname, salary, CASE WHEN commission_earn = '' THEN '0' ELSE commission_earn END AS commission_earn FROM employee; 

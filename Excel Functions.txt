@@ -1,0 +1,8 @@
+* difference between networkdays and networkdays.intl.
+-> the main difference is that networkdays considers Saturday and sunday as weekend days while networkdays.intl allows to consider weekend days in a numerical form.
+
+* difference between workday and workday.intl.
+-> the main difference is that workday does not allows you to customize which days are considered as weekend days while workday.intl allows you to customize which days are considered as weekdays.
+
+* difference between workday and networkdays.
+-> the difference is that workday calculates an end date based on a given number of days while networkdays calculates the number of work days based on given two dates.
